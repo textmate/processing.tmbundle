@@ -542,7 +542,11 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#processing-specific</string>
+					<string>#processing-methods</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#processing-classes</string>
 				</dict>
 			</array>
 		</dict>
@@ -617,6 +621,10 @@
 		<dict>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>include</key>
+					<string>#processing-variables-and-constants</string>
+				</dict>
 				<dict>
 					<key>match</key>
 					<string>\b(true|false|null)\b</string>
@@ -772,7 +780,9 @@
 		<key>methods</key>
 		<dict>
 			<key>begin</key>
-			<string>(?!new)(?=\w.*\s+)(?=[^=]+\()</string>
+			<string>(?!new)(?=\w.*\s+)(?=[^=]+\()(?=.+{)</string>
+			<key>comment</key>
+			<string>Method defs have to look-ahead for the opening bracket to be distinguished from a method call</string>
 			<key>end</key>
 			<string>}|(?=;)</string>
 			<key>name</key>
@@ -846,6 +856,10 @@
 		<dict>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>include</key>
+					<string>#processing-classes</string>
+				</dict>
 				<dict>
 					<key>begin</key>
 					<string>\b((?:[a-z]\w*\.)*[A-Z]+\w*)&lt;</string>
@@ -1024,18 +1038,38 @@
 				</dict>
 			</array>
 		</dict>
-		<key>processing-specific</key>
+		<key>processing-classes</key>
 		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>comment</key>
-					<string>Note the look-ahead at the end. This distinguishes methods like frameRate() from the frameRate variable</string>
+					<string>Includes only Processing-supplied classes - not the standard Java classes (Array, String, etc.), though they're mentioned in the Processing reference</string>
+					<key>match</key>
+					<string>\b(P(Applet|Constants|Font|Graphics|Graphics2D|Graphics3D|GraphicsJava2D|Image|Line|Matrix|Matrix2D|Matrix3D|Polygon|Shape|ShapeSVG|SmoothTriangle|Style|Triangle|Vector)|StdXML(Builder|Parser|Reader)|XML(Element|EntityResolver|Exception|ParseException|ValidationException|Validator|Writer))\b</string>
+					<key>name</key>
+					<string>support.type.java.processing</string>
+				</dict>
+			</array>
+		</dict>
+		<key>processing-methods</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>comment</key>
+					<string>Note the neg. look-behind at the beginning and the look-ahead at the end. This distinguishes methods like array.size() from size(), and frameRate() from the frameRate variable, respectively</string>
 					<key>match</key>
 					<string>\b(?&lt;!\.)(abs|acos|alpha|alpha|ambient|ambientLight|append|applyMatrix|arc|asin|atan2|atan|background|beginCamera|beginShape|bezier|bezierDetail|bezierPoint|bezierTangent|bezierVertex|binary|blend|blend|blue|boolean|box|brightness|byte|cache|camera|ceil|char|charAt|color|colorMode|concat|constrain|contract|copy|copy|cos|createFont|cursor|curve|curveDetail|curvePoint|curveSegments|curveTightness|curveVertex|day|degrees|delay|directionalLight|dist|duration|ellipse|ellipseMode|emissive|endCamera|endShape|equals|exp|expand|fill|filter|filter|float|floor|frameRate|frustum|get|get|green|hex|hint|hour|hue|image|imageMode|indexOf|int|join|keyPressed|keyReleased|length|lerp|lightFalloff|lightSpecular|lights|line|link|list|loadBytes|loadFont|loadImage|loadPixels|loadSound|loadStrings|log|lookat|loop|loop|mag|mask|max|millis|min|minute|modelX|modelY|modelZ|month|mouseDragged|mouseMoved|mousePressed|mouseReleased|nf|nfc|nfp|nfs|noCursor|noFill|noLoop|noLoop|noSmooth|noStroke|noTint|noise|noiseDetail|noiseSeed|normal|open|openStream|ortho|param|pause|perspective|play|point|pointLight|popMatrix|pow|print|printCamera|printMatrix|printProjection|println|pushMatrix|quad|radians|random|randomSeed|rect|rectMode|red|redraw|resetMatrix|reverse|rotate|rotateX|rotateY|rotateZ|round|saturation|save|saveBytes|saveFrame|saveStrings|scale|screenX|screenY|screenZ|second|set|set|shininess|shorten|sin|size|smooth|sort|specular|sphere|sphereDetail|splice|split|spotLight|sq|sqrt|status|stop|str|stroke|strokeCap|strokeJoin|strokeWeight|subset|substring|switch|tan|text|textAlign|textAscent|textDescent|textFont|textLeading|textMode|textSize|textWidth|texture|textureMode|time|tint|toLowerCase|toUpperCase|translate|triangle|trim|unHint|unbinary|unhex|updatePixels|vertex|volume|year|draw|setup)(?=\s*\()</string>
 					<key>name</key>
 					<string>support.function.java.processing</string>
 				</dict>
+			</array>
+		</dict>
+		<key>processing-variables-and-constants</key>
+		<dict>
+			<key>patterns</key>
+			<array>
 				<dict>
 					<key>match</key>
 					<string>\b(focused|frameCount|frameRate|height|height|key|keyCode|keyPressed|mouseButton|mousePressed|mouseX|mouseY|online|pixels|pmouseX|pmouseY|screen|width)(?!\s*\()\b</string>
@@ -1047,14 +1081,6 @@
 					<string>\b(ADD|ALIGN_CENTER|ALIGN_LEFT|ALIGN_RIGHT|ALPHA|ALPHA_MASK|ALT|AMBIENT|ARGB|ARROW|BACKSPACE|BEVEL|BLEND|BLEND|BLUE_MASK|BLUR|CENTER|CENTER_RADIUS|CHATTER|CODED|COMPLAINT|COMPONENT|COMPOSITE|CONCAVE_POLYGON|CONTROL|CONVEX_POLYGON|CORNER|CORNERS|CROSS|CUSTOM|DARKEST|DEGREES|DEG_TO_RAD|DELETE|DIFFERENCE|DIFFUSE|DISABLED|DISABLE_TEXT_SMOOTH|DOWN|ENTER|EPSILON|ESC|GIF|GREEN_MASK|GREY|HALF|HALF_PI|HALF_PI|HAND|HARD_LIGHT|HSB|IMAGE|INVERT|JAVA2D|JPEG|LEFT|LIGHTEST|LINES|LINE_LOOP|LINE_STRIP|MAX_FLOAT|MITER|MODEL|MOVE|MULTIPLY|NORMALIZED|NO_DEPTH_TEST|NTSC|ONE|OPAQUE|OPENGL|ORTHOGRAPHIC|OVERLAY|P2D|P3D|PAL|PERSPECTIVE|PI|PI|PIXEL_CENTER|POINTS|POLYGON|POSTERIZE|PROBLEM|PROJECT|QUADS|QUAD_STRIP|QUARTER_PI|RADIANS|RAD_TO_DEG|RED_MASK|REPLACE|RETURN|RGB|RIGHT|ROUND|SCREEN|SECAM|SHIFT|SOFT_LIGHT|SPECULAR|SQUARE|SUBTRACT|SVIDEO|TAB|TARGA|TEXT|TFF|THIRD_PI|THRESHOLD|TIFF|TRIANGLES|TRIANGLE_FAN|TRIANGLE_STRIP|TUNER|TWO|TWO_PI|TWO_PI|UP|WAIT|WHITESPACE)\b</string>
 					<key>name</key>
 					<string>support.constant.java.processing</string>
-				</dict>
-				<dict>
-					<key>comment</key>
-					<string>Includes only Processing-supplied classes - not the standard Java classes (Array, String, etc.), though they're mentioned in the Processing reference</string>
-					<key>match</key>
-					<string>\b(P(Applet|Constants|Font|Graphics|Graphics2D|Graphics3D|GraphicsJava2D|Image|Line|Matrix|Matrix2D|Matrix3D|Polygon|Shape|ShapeSVG|SmoothTriangle|Style|Triangle|Vector)|StdXML(Builder|Parser|Reader)|XML(Element|EntityResolver|Exception|ParseException|ValidationException|Validator|Writer))\b</string>
-					<key>name</key>
-					<string>support.type.java.processing</string>
 				</dict>
 			</array>
 		</dict>
