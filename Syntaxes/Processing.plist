@@ -1267,12 +1267,6 @@
 					<array>
 						<dict>
 							<key>match</key>
-							<string>^.*$</string>
-							<key>name</key>
-							<string>invalid</string>
-						</dict>
-						<dict>
-							<key>match</key>
 							<string>\\([0-7]{3}|u[A-Fa-f0-9]{4})</string>
 							<key>name</key>
 							<string>constant.character.escape.literal.processing</string>
