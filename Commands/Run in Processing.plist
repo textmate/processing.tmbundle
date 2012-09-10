@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>osascript -e 'try' -e 'tell application "Processing"' -e 'activate' -e 'end tell' -e 'tell application "System Events"' -e 'tell process "Processing"' -e 'tell menu bar 1' -e 'tell menu bar item "Sketch"' -e 'tell menu "Sketch"' -e 'click menu item "Run"' -e 'end tell' -e 'end tell' -e 'end tell' -e 'end tell' -e 'end tell' -e 'return true' -e 'on error error_message' -e 'return false' -e 'end try'</string>
+	<string>#!/usr/bin/env bash
+[[ -f "${TM_SUPPORT_PATH}/lib/bash_init.sh" ]] &amp;&amp; . "${TM_SUPPORT_PATH}/lib/bash_init.sh"
+
+osascript -e 'try' -e 'tell application "Processing"' -e 'activate' -e 'end tell' -e 'tell application "System Events"' -e 'tell process "Processing"' -e 'tell menu bar 1' -e 'tell menu bar item "Sketch"' -e 'tell menu "Sketch"' -e 'click menu item "Run"' -e 'end tell' -e 'end tell' -e 'end tell' -e 'end tell' -e 'end tell' -e 'return true' -e 'on error error_message' -e 'return false' -e 'end try'</string>
 	<key>input</key>
 	<string>none</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>keyEquivalent</key>
 	<string>@r</string>
 	<key>name</key>
 	<string>Run in Processing</string>
-	<key>output</key>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
 	<string>discard</string>
 	<key>scope</key>
 	<string>source.processing</string>
+	<key>semanticClass</key>
+	<string>process.run.processing</string>
 	<key>uuid</key>
 	<string>740EC8D5-6590-4635-B76A-A032681898C8</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>
