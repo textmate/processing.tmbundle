@@ -11,7 +11,7 @@ require ENV["TM_SUPPORT_PATH"] + "/lib/tm/executor"
 require ENV['TM_SUPPORT_PATH'] + '/lib/ui.rb'
 
 if File.exist?(ENV['TM_PROCESSING'] ? "#{ENV['TM_PROCESSING']}" : "/Applications/Processing.app")
-  command = ["#{ENV['TM_BUNDLE_SUPPORT']}/bin/processing-java", "--sketch=#{ENV['TM_PROJECT_DIRECTORY']}", "--output=#{ENV['TMPDIR']}/processing_output", "--run", "--force"]
+  command = ["#{ENV['TM_BUNDLE_SUPPORT']}/bin/processing-java", "--force", "--sketch=#{ENV['TM_PROJECT_DIRECTORY']}", "--output=#{ENV['TMPDIR']}/processing_output", "--run"]
   TextMate::Executor.run(command)
 else
   TextMate::UI.alert(:critical, "Processing Not Installed", "Please install Processing.app into Applications or set $TM_PROCESSING to it's path.", 'OK')
